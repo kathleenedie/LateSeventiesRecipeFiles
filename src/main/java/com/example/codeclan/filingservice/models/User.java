@@ -1,5 +1,8 @@
 package com.example.codeclan.filingservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +19,31 @@ public class User {
     @Column(name = "name")
     private String name;
 
-//    @Column(name = "folders")
-//    private List<Folder> folders;
+    @ManyToMany
+    @JsonIgnoreProperties({"users"})
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinTable(
+            name = "users_folders",
+            joinColumns = {
+                    @JoinColumn(
+                            name = "user_id",
+                            nullable = false,
+                            updatable = false
+                    )
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "folder_id",
+                            nullable = false,
+                            updatable = false
+                    )
+            }
+    )
+    private List<Folder> folders;
 
-    public User(Long id, String name) {
-        this.id = id;
+    public User(String name) {
         this.name = name;
-//        this.folders = new ArrayList<Folder>();
+        this.folders = new ArrayList<Folder>();
     }
 
     public User() {
@@ -44,15 +65,15 @@ public class User {
         this.name = name;
     }
 
-//    public List<Folder> getFolders() {
-//        return folders;
-//    }
-//
-//    public void setFolders(List<Folder> folders) {
-//        this.folders = folders;
-//    }
-//
-//    public void addFolderToUser(Folder folder){
-//        this.folders.add(folder);
-//    }
+    public List<Folder> getFolders() {
+        return folders;
+    }
+
+    public void setFolders(List<Folder> folders) {
+        this.folders = folders;
+    }
+
+    public void addFolderToUser(Folder folder){
+        this.folders.add(folder);
+    }
 }

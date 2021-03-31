@@ -3,8 +3,10 @@ package com.example.codeclan.filingservice.components;
 import com.example.codeclan.filingservice.models.ExtensionType;
 import com.example.codeclan.filingservice.models.File;
 import com.example.codeclan.filingservice.models.Folder;
+import com.example.codeclan.filingservice.models.User;
 import com.example.codeclan.filingservice.repositories.FileRepository;
 import com.example.codeclan.filingservice.repositories.FolderRepository;
+import com.example.codeclan.filingservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,6 +20,9 @@ public class DataLoader implements ApplicationRunner {
 
     @Autowired
     FileRepository fileRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public DataLoader() {
     }
@@ -46,5 +51,13 @@ public class DataLoader implements ApplicationRunner {
         File porkScallopini = new File("Pork Scallopini", ExtensionType.JAVA, 340, main);
         fileRepository.save(porkScallopini);
         File blackForestGateaux = new File("Black Forest Gateaux", ExtensionType.TXT, 240, pudding);
+
+        User fanny = new User("Fanny Craddock");
+        userRepository.save(fanny);
+        User floyd = new User("Keith Floyd");
+        userRepository.save(floyd);
+
+        
+
     }
 }
